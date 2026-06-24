@@ -1,0 +1,88 @@
+.t5-navbar {
+    background: rgba(13, 17, 23, 0.92) !important;
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 0;
+}
+
+.t5-brand {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    color: var(--green) !important;
+    letter-spacing: -0.5px;
+    cursor: default;
+}
+
+.t5-brand-sub {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* API status */
+.api-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.3rem 0.85rem;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--bg-card);
+    white-space: nowrap;
+}
+
+.api-status-pill.online {
+    color: var(--green);
+    border-color: rgba(63, 185, 80, 0.3);
+}
+
+.api-status-pill.offline {
+    color: var(--red);
+    border-color: rgba(248, 81, 73, 0.3);
+}
+
+.api-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.api-status-pill.online .api-dot {
+    animation: pulse 1.8s infinite;
+}
+
+/* Add button */
+.t5-add-btn {
+    background: var(--green) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    padding: 0.45rem 1.1rem !important;
+    transition: background 0.2s, transform 0.2s !important;
+}
+
+.t5-add-btn:hover {
+    background: #2ea043 !important;
+    transform: translateY(-1px);
+}
+
+.t5-add-btn-icon {
+    background: var(--green) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    width: 36px;
+    height: 36px;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
