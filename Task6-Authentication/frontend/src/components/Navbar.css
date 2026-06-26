@@ -1,0 +1,96 @@
+.t6-navbar {
+    background: rgba(13, 17, 23, .92) !important;
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: .8rem 0;
+}
+
+.t6-brand {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    color: var(--green) !important;
+    letter-spacing: -.5px;
+    cursor: pointer;
+}
+
+.t6-brand-sub {
+    color: var(--muted);
+    font-size: .85rem;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.t6-user-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: .3rem .9rem .3rem .4rem;
+}
+
+.t6-avatar {
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, var(--green), var(--blue));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .75rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.t6-add-btn {
+    background: var(--green) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 600 !important;
+    font-size: .875rem !important;
+    padding: .45rem 1.1rem !important;
+    transition: background .2s, transform .2s !important;
+}
+
+.t6-add-btn:hover {
+    background: #2ea043 !important;
+    transform: translateY(-1px);
+}
+
+.t6-logout-btn {
+    background: transparent !important;
+    border: 1px solid rgba(248, 81, 73, .3) !important;
+    color: var(--red) !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: .85rem !important;
+    font-weight: 600 !important;
+    padding: .4rem .9rem !important;
+    transition: background .2s, border-color .2s !important;
+}
+
+.t6-logout-btn:hover {
+    background: var(--red-dim) !important;
+    border-color: var(--red) !important;
+}
+
+.t6-nav-link {
+    color: var(--muted);
+    font-size: .875rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: .3rem .85rem;
+    border-radius: var(--radius-sm);
+    transition: color .2s, background .2s;
+}
+
+.t6-nav-link:hover,
+.t6-nav-link.active {
+    color: var(--text);
+    background: rgba(255, 255, 255, .06);
+}
