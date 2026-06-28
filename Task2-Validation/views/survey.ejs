@@ -1,0 +1,176 @@
+<%- include('partials/header') %>
+
+<section class="form-page fade-up">
+  <div class="form-card wide-card">
+    <div class="form-card-logo">📋</div>
+    <h2 class="form-card-title">Developer Survey</h2>
+    <p class="form-card-sub">Help us understand the developer community. All fields validated client + server.</p>
+
+    <!-- Progress indicator -->
+    <div class="form-progress">
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-label" id="progressLabel">0% complete</span>
+    </div>
+
+    <% if (errors.length > 0) { %>
+    <div class="error-banner">
+      <strong>⚠ Server validation failed — fix the following:</strong>
+      <ul><% errors.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
+    </div>
+    <% } %>
+
+    <!--
+      INLINE JS VALIDATION:
+      Each field has an oninput/onchange handler defined inline (as required by Task 2 brief).
+      These call validateField() defined in public/js/main.js.
+    -->
+    <form
+      id="surveyForm"
+      action="/survey"
+      method="POST"
+      novalidate
+      onsubmit="return validateSurveyForm(event)"
+    >
+
+      <!-- Row 1: Name + Email -->
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="name">Full Name <span class="req">*</span></label>
+          <input
+            type="text" id="name" name="name"
+            value="<%= old.name||'' %>"
+            placeholder="Faizal F"
+            oninput="validateField(this, val => {
+              if(!val.trim()) return 'Name is required.';
+              if(val.trim().length < 3) return 'Min 3 characters.';
+              if(!/^[A-Za-z\s]+$/.test(val)) return 'Letters only.';
+              return '';
+            })"
+          />
+          <span class="field-error" id="name-err"></span>
+        </div>
+        <div class="field-wrap">
+          <label for="email">Email Address <span class="req">*</span></label>
+          <input
+            type="email" id="email" name="email"
+            value="<%= old.email||'' %>"
+            placeholder="faizal@cognifyz.com"
+            oninput="validateField(this, val => {
+              if(!val.trim()) return 'Email is required.';
+              if(!/^\S+@\S+\.\S+$/.test(val)) return 'Enter a valid email.';
+              return '';
+            })"
+          />
+          <span class="field-error" id="email-err"></span>
+        </div>
+      </div>
+
+      <!-- Row 2: Age + Gender -->
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="age">Age <span class="req">*</span></label>
+          <input
+            type="number" id="age" name="age"
+            value="<%= old.age||'' %>"
+            placeholder="22" min="16" max="80"
+            oninput="validateField(this, val => {
+              if(!val) return 'Age is required.';
+              if(val < 16 || val > 80) return 'Age must be 16–80.';
+              return '';
+            })"
+          />
+          <span class="field-error" id="age-err"></span>
+        </div>
+        <div class="field-wrap">
+          <label for="gender">Gender <span class="req">*</span></label>
+          <select
+            id="gender" name="gender"
+            onchange="validateField(this, val => val ? '' : 'Please select gender.')"
+          >
+            <option value="" disabled <%= !old.gender?'selected':'' %>>Select…</option>
+            <option value="male"   <%= old.gender==='male'   ?'selected':'' %>>Male</option>
+            <option value="female" <%= old.gender==='female' ?'selected':'' %>>Female</option>
+            <option value="other"  <%= old.gender==='other'  ?'selected':'' %>>Other</option>
+            <option value="prefer" <%= old.gender==='prefer' ?'selected':'' %>>Prefer not to say</option>
+          </select>
+          <span class="field-error" id="gender-err"></span>
+        </div>
+      </div>
+
+      <!-- Row 3: Occupation + Experience -->
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="occupation">Occupation <span class="req">*</span></label>
+          <input
+            type="text" id="occupation" name="occupation"
+            value="<%= old.occupation||'' %>"
+            placeholder="Full-Stack Developer"
+            oninput="validateField(this, val => {
+              if(!val.trim()) return 'Occupation is required.';
+              return '';
+            })"
+          />
+          <span class="field-error" id="occupation-err"></span>
+        </div>
+        <div class="field-wrap">
+          <label for="experience">Experience Level <span class="req">*</span></label>
+          <select
+            id="experience" name="experience"
+            onchange="validateField(this, val => val ? '' : 'Please select experience level.')"
+          >
+            <option value="" disabled <%= !old.experience?'selected':'' %>>Select…</option>
+            <option value="0-1 years"  <%= old.experience==='0-1 years'  ?'selected':'' %>>0–1 years</option>
+            <option value="1-3 years"  <%= old.experience==='1-3 years'  ?'selected':'' %>>1–3 years</option>
+            <option value="3-5 years"  <%= old.experience==='3-5 years'  ?'selected':'' %>>3–5 years</option>
+            <option value="5-10 years" <%= old.experience==='5-10 years' ?'selected':'' %>>5–10 years</option>
+            <option value="10+ years"  <%= old.experience==='10+ years'  ?'selected':'' %>>10+ years</option>
+          </select>
+          <span class="field-error" id="experience-err"></span>
+        </div>
+      </div>
+
+      <!-- Skills checkboxes -->
+      <div class="field-wrap">
+        <label>Skills <span class="req">*</span> <span class="label-hint">(select at least one)</span></label>
+        <div class="checkbox-grid" id="skillsGroup" onchange="validateCheckboxGroup('skillsGroup', 'skills-err', 'Select at least one skill.')">
+          <% const allSkills = ['HTML/CSS','JavaScript','React','Node.js','Express','MongoDB','Python','SQL','Git','Docker'] %>
+          <% const oldSkills = Array.isArray(old.skills) ? old.skills : (old.skills ? [old.skills] : []) %>
+          <% allSkills.forEach(skill => { %>
+          <label class="check-item">
+            <input type="checkbox" name="skills" value="<%= skill %>" <%= oldSkills.includes(skill)?'checked':'' %> />
+            <span><%= skill %></span>
+          </label>
+          <% }) %>
+        </div>
+        <span class="field-error" id="skills-err"></span>
+      </div>
+
+      <!-- Salary range slider -->
+      <div class="field-wrap">
+        <label for="salary">Expected Salary (₹/year): <span class="salary-display" id="salaryDisplay"><%= old.salary||'₹5,00,000' %></span></label>
+        <input
+          type="range" id="salary" name="salary"
+          min="100000" max="5000000" step="50000"
+          value="<%= old.salary||500000 %>"
+          class="range-slider"
+          oninput="updateSalary(this)"
+        />
+        <div class="range-labels"><span>₹1L</span><span>₹50L</span></div>
+      </div>
+
+      <!-- Newsletter checkbox -->
+      <div class="field-wrap">
+        <label class="single-check">
+          <input type="checkbox" name="newsletter" <%= old.newsletter==='on'?'checked':'' %> />
+          Subscribe to Cognifyz newsletter
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" id="surveySubmitBtn">
+        📋 Submit Survey
+      </button>
+    </form>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

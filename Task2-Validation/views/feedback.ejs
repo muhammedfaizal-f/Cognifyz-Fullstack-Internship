@@ -1,0 +1,149 @@
+<%- include('partials/header') %>
+
+<section class="form-page fade-up">
+  <div class="form-card wide-card">
+    <div class="form-card-logo">💬</div>
+    <h2 class="form-card-title">Leave Feedback</h2>
+    <p class="form-card-sub">Both inline JS and server-side validation protect this form.</p>
+
+    <% if (errors.length > 0) { %>
+    <div class="error-banner">
+      <strong>⚠ Server validation failed:</strong>
+      <ul><% errors.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
+    </div>
+    <% } %>
+
+    <form
+      id="feedbackForm"
+      action="/feedback"
+      method="POST"
+      novalidate
+      onsubmit="return validateFeedbackForm(event)"
+    >
+
+      <!-- Row 1: Name + Email -->
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="fname">Your Name <span class="req">*</span></label>
+          <input
+            type="text" id="fname" name="name"
+            value="<%= old.name||'' %>"
+            placeholder="Faizal F"
+            oninput="validateField(this, val => {
+              if(!val.trim()) return 'Name is required.';
+              if(val.trim().length < 3) return 'Min 3 characters.';
+              return '';
+            })"
+          />
+          <span class="field-error" id="fname-err"></span>
+        </div>
+        <div class="field-wrap">
+          <label for="femail">Email <span class="req">*</span></label>
+          <input
+            type="email" id="femail" name="email"
+            value="<%= old.email||'' %>"
+            placeholder="faizal@cognifyz.com"
+            oninput="validateField(this, val => {
+              if(!val.trim()) return 'Email is required.';
+              if(!/^\S+@\S+\.\S+$/.test(val)) return 'Enter a valid email.';
+              return '';
+            })"
+          />
+          <span class="field-error" id="femail-err"></span>
+        </div>
+      </div>
+
+      <!-- Category + Recommend -->
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="category">Category <span class="req">*</span></label>
+          <select
+            id="category" name="category"
+            onchange="validateField(this, val => val ? '' : 'Please select a category.')"
+          >
+            <option value="" disabled <%= !old.category?'selected':'' %>>Select…</option>
+            <option value="Product"     <%= old.category==='Product'     ?'selected':'' %>>Product</option>
+            <option value="Support"     <%= old.category==='Support'     ?'selected':'' %>>Support</option>
+            <option value="Website"     <%= old.category==='Website'     ?'selected':'' %>>Website</option>
+            <option value="Performance" <%= old.category==='Performance' ?'selected':'' %>>Performance</option>
+            <option value="Other"       <%= old.category==='Other'       ?'selected':'' %>>Other</option>
+          </select>
+          <span class="field-error" id="category-err"></span>
+        </div>
+        <div class="field-wrap">
+          <label>Would you recommend us? <span class="req">*</span></label>
+          <div class="radio-group" onchange="validateRadioGroup('recommendGroup','recommend-err','Please answer this question.')">
+            <div id="recommendGroup">
+              <label class="radio-item"><input type="radio" name="recommend" value="Yes"   <%= old.recommend==='Yes'      ?'checked':'' %>/> <span>Yes, definitely!</span></label>
+              <label class="radio-item"><input type="radio" name="recommend" value="Maybe" <%= old.recommend==='Maybe'    ?'checked':'' %>/> <span>Maybe</span></label>
+              <label class="radio-item"><input type="radio" name="recommend" value="No"    <%= old.recommend==='No'       ?'checked':'' %>/> <span>Not right now</span></label>
+            </div>
+          </div>
+          <span class="field-error" id="recommend-err"></span>
+        </div>
+      </div>
+
+      <!-- Star rating — inline JS interaction -->
+      <div class="field-wrap">
+        <label>Rating <span class="req">*</span></label>
+        <div class="star-rating" id="starRating">
+          <% for(let i=1;i<=5;i++) { %>
+          <button
+  type="button"
+  class="star <%= (parseInt(old?.rating) || 0) >= i ? 'active' : '' %>"
+  data-value="<%= i %>"
+  aria-label="<%= i %> star"
+>
+  ★
+</button>
+          <% } %>
+          <span class="rating-text" id="ratingText">
+            <%= old.rating ? ['','Poor','Fair','Good','Great','Excellent'][parseInt(old.rating)] : 'Click to rate' %>
+          </span>
+        </div>
+        <input type="hidden" id="ratingInput" name="rating" value="<%= old.rating||'' %>" />
+        <span class="field-error" id="rating-err"></span>
+      </div>
+
+      <!-- Title -->
+      <div class="field-wrap">
+        <label for="ftitle">Feedback Title <span class="req">*</span></label>
+        <input
+          type="text" id="ftitle" name="title"
+          value="<%= old.title||'' %>"
+          placeholder="Summarise your feedback in a few words"
+          oninput="validateField(this, val => {
+            if(!val.trim()) return 'Title is required.';
+            if(val.trim().length < 5) return 'Min 5 characters.';
+            return '';
+          })"
+        />
+        <span class="field-error" id="ftitle-err"></span>
+      </div>
+
+      <!-- Feedback textarea with live char count -->
+      <div class="field-wrap">
+        <label for="feedback">
+          Your Feedback <span class="req">*</span>
+          <span class="char-counter" id="fbCounter">0 / 30 min</span>
+        </label>
+        <textarea
+          id="feedback" name="feedback"
+          rows="5"
+          placeholder="Tell us what you think — minimum 30 characters…"
+          oninput="validateField(this, val => {
+            updateCharCount('feedback','fbCounter',30);
+            if(!val.trim()) return 'Feedback is required.';
+            if(val.trim().length < 30) return `${30-val.trim().length} more characters needed.`;
+            return '';
+          })"
+        ><%= old.feedback||'' %></textarea>
+        <span class="field-error" id="feedback-err"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">💬 Submit Feedback</button>
+    </form>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

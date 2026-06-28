@@ -1,0 +1,94 @@
+<%- include('partials/header') %>
+
+<section class="fade-up">
+  <div class="section-eyebrow">Temporary Server Storage</div>
+  <h2 class="section-title">Dashboard — Live stored data</h2>
+  <p style="color:var(--muted);font-size:.875rem;margin-bottom:2rem">
+    Data lives in server memory — it resets when the server restarts. This demonstrates temporary server-side storage.
+  </p>
+
+  <!-- Stats -->
+  <div class="stats-row" style="margin-bottom:2rem">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(99,102,241,.12);color:#6366f1">📋</div>
+      <div><div class="stat-num"><%= stats.totalSurveys %></div><div class="stat-label">Surveys</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(236,72,153,.12);color:#ec4899">💬</div>
+      <div><div class="stat-num"><%= stats.totalFeedbacks %></div><div class="stat-label">Feedbacks</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(245,158,11,.12);color:#f59e0b">⭐</div>
+      <div><div class="stat-num"><%= stats.avgRating %></div><div class="stat-label">Avg Rating</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(16,185,129,.12);color:#10b981">👤</div>
+      <div><div class="stat-num" style="font-size:1rem;font-weight:700"><%= stats.topRole %></div><div class="stat-label">Top Role</div></div>
+    </div>
+  </div>
+
+  <!-- Tab switcher — inline JS -->
+  <div class="tab-wrap">
+    <button class="tab-btn active" onclick="switchTab('surveys',this)">📋 Surveys (<%= surveys.length %>)</button>
+    <button class="tab-btn"        onclick="switchTab('feedbacks',this)">💬 Feedbacks (<%= feedbacks.length %>)</button>
+  </div>
+
+  <!-- Surveys table -->
+  <div id="tab-surveys" class="tab-pane">
+    <% if(surveys.length === 0) { %>
+    <div class="empty-state">No survey submissions yet. <a href="/survey">Take the survey →</a></div>
+    <% } else { %>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Email</th><th>Occupation</th><th>Skills</th><th>Exp</th><th>Newsletter</th><th>Submitted</th></tr>
+        </thead>
+        <tbody>
+          <% surveys.forEach(s => { %>
+          <tr>
+            <td><span class="id-badge"><%= s.id %></span></td>
+            <td><strong><%= s.name %></strong></td>
+            <td class="muted"><%= s.email %></td>
+            <td><%= s.occupation %></td>
+            <td><span class="skills-text"><%= s.skills %></span></td>
+            <td><span class="exp-badge"><%= s.experience %></span></td>
+            <td><span class="bool-badge <%= s.newsletter==='Yes'?'yes':'no' %>"><%= s.newsletter %></span></td>
+            <td class="muted small"><%= s.submittedAt %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- Feedbacks table -->
+  <div id="tab-feedbacks" class="tab-pane" style="display:none">
+    <% if(feedbacks.length === 0) { %>
+    <div class="empty-state">No feedback yet. <a href="/feedback">Leave feedback →</a></div>
+    <% } else { %>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Category</th><th>Rating</th><th>Title</th><th>Recommend</th><th>Submitted</th></tr>
+        </thead>
+        <tbody>
+          <% feedbacks.forEach(f => { %>
+          <tr>
+            <td><span class="id-badge"><%= f.id %></span></td>
+            <td><strong><%= f.name %></strong></td>
+            <td><span class="cat-badge"><%= f.category %></span></td>
+            <td><span class="star-display"><%= '★'.repeat(parseInt(f.rating)) %><%= '☆'.repeat(5-parseInt(f.rating)) %></span></td>
+            <td><%= f.title %></td>
+            <td><span class="bool-badge <%= f.recommend==='Yes'?'yes':f.recommend==='No'?'no':'maybe' %>"><%= f.recommend %></span></td>
+            <td class="muted small"><%= f.submittedAt %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

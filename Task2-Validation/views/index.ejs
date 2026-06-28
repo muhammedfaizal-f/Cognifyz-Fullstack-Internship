@@ -1,80 +1,99 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Task 2</title>
-</head>
-<body>
+<%- include('partials/header') %>
 
-<h1>User Registration</h1>
+<!-- Hero -->
+<section class="hero fade-up">
+  <div class="hero-badge"><span class="hero-dot"></span>Cognifyz · Level 1 · Task 2</div>
+  <h1 class="hero-title">Inline Styles,<br /><span class="gradient-text">Interaction &amp; Validation</span></h1>
+  <p class="hero-sub">
+    Complex multi-step forms with inline JavaScript client-side validation,
+    server-side validation via express-validator, and temporary in-memory storage.
+  </p>
+  <div class="hero-actions">
+    <a href="/survey"   class="btn btn-primary">📋 Take Survey</a>
+    <a href="/feedback" class="btn btn-outline">💬 Leave Feedback</a>
+    <a href="/dashboard" class="btn btn-ghost">📊 Dashboard</a>
+  </div>
+</section>
 
-<p style="color:red;">
-  <%= error %>
-</p>
+<!-- Live stats -->
+<section class="stats-row fade-up">
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(99,102,241,.12);color:#6366f1">📋</div>
+    <div><div class="stat-num"><%= stats.totalSurveys %></div><div class="stat-label">Surveys Stored</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(236,72,153,.12);color:#ec4899">💬</div>
+    <div><div class="stat-num"><%= stats.totalFeedbacks %></div><div class="stat-label">Feedbacks Stored</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(245,158,11,.12);color:#f59e0b">⭐</div>
+    <div><div class="stat-num"><%= stats.avgRating %></div><div class="stat-label">Avg Rating</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(16,185,129,.12);color:#10b981">👤</div>
+    <div><div class="stat-num" style="font-size:1rem;font-weight:700"><%= stats.topRole %></div><div class="stat-label">Top Role</div></div>
+  </div>
+</section>
 
-<form action="/submit" method="POST" onsubmit="return validateForm()">
+<!-- What's new in Task 2 -->
+<section class="features-section fade-up">
+  <div class="section-eyebrow">Task 2 Additions</div>
+  <h2 class="section-title">What's new over Task 1</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(99,102,241,.12);color:#6366f1">⚡</div>
+      <h4>Inline JS Validation</h4>
+      <p>Real-time client-side feedback on every field using inline JavaScript — no framework.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(236,72,153,.12);color:#ec4899">🛡️</div>
+      <h4>Server-Side Validation</h4>
+      <p>express-validator rules re-validate all data on the server — client-side alone is never enough.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(245,158,11,.12);color:#f59e0b">🗃️</div>
+      <h4>Temp Server Storage</h4>
+      <p>All submissions stored in an in-memory JS object on the server — no database needed for this task.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(16,185,129,.12);color:#10b981">📊</div>
+      <h4>Live Dashboard</h4>
+      <p>A server-rendered dashboard shows all stored entries — data survives until the server restarts.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(239,68,68,.12);color:#ef4444">📋</div>
+      <h4>Complex Forms</h4>
+      <p>Multi-field forms with checkboxes, radio buttons, range sliders, select dropdowns, and textareas.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(59,130,246,.12);color:#3b82f6">🔄</div>
+      <h4>Old Input Preserved</h4>
+      <p>On validation failure the form re-renders with all previous values intact — no data loss.</p>
+    </div>
+  </div>
+</section>
 
-  <input
-    type="text"
-    id="name"
-    name="name"
-    placeholder="Enter your name"
-  >
+<!-- Recent surveys -->
+<% if (recent.length > 0) { %>
+<section class="recent-section fade-up">
+  <div class="section-eyebrow">Server Storage</div>
+  <h2 class="section-title">Recent survey submissions</h2>
+  <div class="recent-list">
+    <% recent.forEach(function(s) { %>
+    <div class="recent-row">
+      <div class="recent-avatar"><%= s.name[0].toUpperCase() %></div>
+      <div class="recent-info">
+        <div class="recent-name"><%= s.name %></div>
+        <div class="recent-meta"><%= s.occupation %> · <%= s.experience %> exp · Skills: <%= s.skills %></div>
+      </div>
+      <div class="recent-id"><%= s.id %></div>
+    </div>
+    <% }) %>
+  </div>
+  <div style="text-align:center;margin-top:1rem">
+    <a href="/dashboard" class="btn btn-outline">View All in Dashboard →</a>
+  </div>
+</section>
+<% } %>
 
-  <br><br>
-
-  <input
-    type="email"
-    id="email"
-    name="email"
-    placeholder="e.g., name@example.com"
-  >
-
-  <br><br>
-
-  <input
-    type="number"
-    id="age"
-    name="age"
-    placeholder="Enter your age"
-  >
-
-  <br><br>
-
-  <button type="submit">
-    Submit
-  </button>
-
-</form>
-
-<script>
-function validateForm() {
-
-  let name =
-    document.getElementById("name").value;
-
-  let email =
-    document.getElementById("email").value;
-
-  let age =
-    document.getElementById("age").value;
-
-  if (
-    name === "" ||
-    email === "" ||
-    age === ""
-  ) {
-    alert("Please fill all fields.");
-    return false;
-  }
-
-  if (age < 18) {
-    alert("Age must be 18 or above.");
-    return false;
-  }
-
-  return true;
-}
-</script>
-
-</body>
-</html>
+<%- include('partials/footer') %>
