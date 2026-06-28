@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+
+<section class="form-page fade-up">
+  <div class="form-card">
+    <div class="form-card-logo">✉️</div>
+    <h2 class="form-card-title">Contact Us</h2>
+    <p class="form-card-sub">We'll get back to you within 24 hours.</p>
+
+    <!-- Server-side error list -->
+    <% if (errors.length > 0) { %>
+    <div class="error-banner">
+      <strong>⚠ Please fix the following:</strong>
+      <ul>
+        <% errors.forEach(function(e) { %><li><%= e.msg %></li><% }) %>
+      </ul>
+    </div>
+    <% } %>
+
+    <form action="/contact" method="POST" novalidate class="t1-form">
+
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="name">Full Name <span class="req">*</span></label>
+          <input
+            type="text" id="name" name="name"
+            value="<%= old.name || '' %>"
+            placeholder="Faizal F"
+            class="<%= errors.find(e => e.path === 'name') ? 'is-error' : '' %>"
+          />
+          <% const nameErr = errors.find(e => e.path === 'name') %>
+          <% if (nameErr) { %><span class="field-error"><%= nameErr.msg %></span><% } %>
+        </div>
+
+        <div class="field-wrap">
+          <label for="email">Email Address <span class="req">*</span></label>
+          <input
+            type="email" id="email" name="email"
+            value="<%= old.email || '' %>"
+            placeholder="faizal@cognifyz.com"
+            class="<%= errors.find(e => e.path === 'email') ? 'is-error' : '' %>"
+          />
+          <% const emailErr = errors.find(e => e.path === 'email') %>
+          <% if (emailErr) { %><span class="field-error"><%= emailErr.msg %></span><% } %>
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label for="subject">Subject <span class="req">*</span></label>
+        <input
+          type="text" id="subject" name="subject"
+          value="<%= old.subject || '' %>"
+          placeholder="What is this about?"
+          class="<%= errors.find(e => e.path === 'subject') ? 'is-error' : '' %>"
+        />
+        <% const subjectErr = errors.find(e => e.path === 'subject') %>
+        <% if (subjectErr) { %><span class="field-error"><%= subjectErr.msg %></span><% } %>
+      </div>
+
+      <div class="field-wrap">
+        <label for="message">Message <span class="req">*</span></label>
+        <textarea
+          id="message" name="message" rows="5"
+          placeholder="Write your message here (min 20 characters)…"
+          class="<%= errors.find(e => e.path === 'message') ? 'is-error' : '' %>"
+        ><%= old.message || '' %></textarea>
+        <% const msgErr = errors.find(e => e.path === 'message') %>
+        <% if (msgErr) { %><span class="field-error"><%= msgErr.msg %></span><% } %>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">✉ Send Message</button>
+    </form>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+
+<section class="success-page fade-up">
+  <div class="success-card">
+    <div class="success-icon"><%= type === 'contact' ? '✉️' : '🎉' %></div>
+    <h2 class="success-title"><%= heading %></h2>
+    <p class="success-sub"><%= subtext %></p>
+
+    <!-- Submitted data summary — dynamically rendered by EJS -->
+    <div class="success-data">
+      <div class="success-data-title">📋 Submission Summary</div>
+      <% const skip = ['id', 'type', 'createdAt'] %>
+      <% Object.keys(data).forEach(function(key) { %>
+        <% if (!skip.includes(key)) { %>
+        <div class="data-row">
+          <span class="data-key"><%= key.charAt(0).toUpperCase() + key.slice(1) %></span>
+          <span class="data-val">
+            <% if (key === 'password') { %>
+              ••••••••
+            <% } else { %>
+              <%= data[key] %>
+            <% } %>
+          </span>
+        </div>
+        <% } %>
+      <% }) %>
+      <div class="data-row">
+        <span class="data-key">Submitted At</span>
+        <span class="data-val"><%= data.createdAt %></span>
+      </div>
+    </div>
+
+    <div class="success-actions">
+      <a href="/"         class="btn btn-outline">← Back to Home</a>
+      <% if (type === 'contact') { %>
+        <a href="/register" class="btn btn-primary">→ Register Now</a>
+      <% } else { %>
+        <a href="/contact"  class="btn btn-primary">✉ Contact Us</a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

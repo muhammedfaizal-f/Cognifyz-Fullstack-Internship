@@ -1,0 +1,105 @@
+<%- include('partials/header') %>
+
+<section class="form-page fade-up">
+  <div class="form-card">
+    <div class="form-card-logo">🛡️</div>
+    <h2 class="form-card-title">Create Account</h2>
+    <p class="form-card-sub">Level 1 · Task 1 — Server-side form handling</p>
+
+    <% if (errors.length > 0) { %>
+    <div class="error-banner">
+      <strong>⚠ Please fix the following:</strong>
+      <ul>
+        <% errors.forEach(function(e) { %><li><%= e.msg %></li><% }) %>
+      </ul>
+    </div>
+    <% } %>
+
+    <form action="/register" method="POST" novalidate class="t1-form">
+
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="name">Full Name <span class="req">*</span></label>
+          <input
+            type="text" id="name" name="name"
+            value="<%= old.name || '' %>"
+            placeholder="Faizal F"
+            class="<%= errors.find(e => e.path === 'name') ? 'is-error' : '' %>"
+          />
+          <% const nameErr = errors.find(e => e.path === 'name') %>
+          <% if (nameErr) { %><span class="field-error"><%= nameErr.msg %></span><% } %>
+        </div>
+
+        <div class="field-wrap">
+          <label for="email">Email Address <span class="req">*</span></label>
+          <input
+            type="email" id="email" name="email"
+            value="<%= old.email || '' %>"
+            placeholder="faizal@cognifyz.com"
+            class="<%= errors.find(e => e.path === 'email') ? 'is-error' : '' %>"
+          />
+          <% const emailErr = errors.find(e => e.path === 'email') %>
+          <% if (emailErr) { %><span class="field-error"><%= emailErr.msg %></span><% } %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="phone">Phone Number <span class="req">*</span></label>
+          <input
+            type="tel" id="phone" name="phone"
+            value="<%= old.phone || '' %>"
+            placeholder="9876543210"
+            class="<%= errors.find(e => e.path === 'phone') ? 'is-error' : '' %>"
+          />
+          <% const phoneErr = errors.find(e => e.path === 'phone') %>
+          <% if (phoneErr) { %><span class="field-error"><%= phoneErr.msg %></span><% } %>
+        </div>
+
+        <div class="field-wrap">
+          <label for="role">Role <span class="req">*</span></label>
+          <select
+            id="role" name="role"
+            class="<%= errors.find(e => e.path === 'role') ? 'is-error' : '' %>"
+          >
+            <option value="" disabled <%= !old.role ? 'selected' : '' %>>Select a role…</option>
+            <option value="developer"  <%= old.role === 'developer'  ? 'selected' : '' %>>Developer</option>
+            <option value="designer"   <%= old.role === 'designer'   ? 'selected' : '' %>>Designer</option>
+            <option value="manager"    <%= old.role === 'manager'    ? 'selected' : '' %>>Manager</option>
+            <option value="student"    <%= old.role === 'student'    ? 'selected' : '' %>>Student</option>
+            <option value="other"      <%= old.role === 'other'      ? 'selected' : '' %>>Other</option>
+          </select>
+          <% const roleErr = errors.find(e => e.path === 'role') %>
+          <% if (roleErr) { %><span class="field-error"><%= roleErr.msg %></span><% } %>
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label for="password">Password <span class="req">*</span></label>
+        <input
+          type="password" id="password" name="password"
+          placeholder="Min 8 chars, 1 uppercase, 1 number"
+          class="<%= errors.find(e => e.path === 'password') ? 'is-error' : '' %>"
+        />
+        <% const pwErr = errors.find(e => e.path === 'password') %>
+        <% if (pwErr) { %><span class="field-error"><%= pwErr.msg %></span><% } %>
+        <div class="pw-rules">
+          <span>✓ 8+ characters</span>
+          <span>✓ 1 uppercase</span>
+          <span>✓ 1 number</span>
+        </div>
+      </div>
+
+      <div class="field-wrap checkbox-wrap">
+        <label class="checkbox-label">
+          <input type="checkbox" name="terms" required />
+          I agree to the <a href="#">Terms &amp; Conditions</a>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">→ Create Account</button>
+    </form>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
