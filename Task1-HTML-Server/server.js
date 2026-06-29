@@ -29,22 +29,15 @@ app.use('/', routes)
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).render('index', {
-    title: '404 — Page Not Found',
-    error: 'The page you are looking for does not exist.',
-    submissions: [],
-  })
-})
+  res.status(404).send("404 Not Found");
+});
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack)
-  res.status(500).render('index', {
-    title: 'Server Error',
-    error: 'Something went wrong on the server.',
-    submissions: [],
-  })
-})
+  console.error("ORIGINAL ERROR:");
+  console.error(err);
+  res.status(500).send(err.stack);
+});
 
 app.listen(PORT, () =>
   console.log(`✅ Cognifyz Task 1 → http://localhost:${PORT}`)
