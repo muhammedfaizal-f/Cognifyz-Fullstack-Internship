@@ -1,22 +1,22 @@
 import './TaskCard.css'
 
 const STATUS_CONFIG = {
-  'todo':        { label:'To Do',       color:'var(--muted)',  bg:'rgba(139,148,158,0.12)', icon:'bi-circle' },
-  'in-progress': { label:'In Progress', color:'var(--yellow)', bg:'var(--yellow-dim)',      icon:'bi-arrow-repeat' },
-  'done':        { label:'Done',        color:'var(--green)',  bg:'var(--green-dim)',        icon:'bi-check-circle-fill' },
+  'todo': { label: 'To Do', color: 'var(--muted)', bg: 'rgba(139,148,158,0.12)', icon: 'bi-circle' },
+  'in-progress': { label: 'In Progress', color: 'var(--yellow)', bg: 'var(--yellow-dim)', icon: 'bi-arrow-repeat' },
+  'done': { label: 'Done', color: 'var(--green)', bg: 'var(--green-dim)', icon: 'bi-check-circle-fill' },
 }
 const PRIORITY_CONFIG = {
-  'high':   { label:'High',   color:'var(--red)',    bg:'var(--red-dim)'    },
-  'medium': { label:'Medium', color:'var(--yellow)', bg:'var(--yellow-dim)' },
-  'low':    { label:'Low',    color:'var(--green)',  bg:'var(--green-dim)'  },
+  'high': { label: 'High', color: 'var(--red)', bg: 'var(--red-dim)' },
+  'medium': { label: 'Medium', color: 'var(--yellow)', bg: 'var(--yellow-dim)' },
+  'low': { label: 'Low', color: 'var(--green)', bg: 'var(--green-dim)' },
 }
 
 export default function TaskCard({ task, onEdit, onDelete, onStatusChange }) {
-  const s = STATUS_CONFIG[task.status]  || STATUS_CONFIG['todo']
+  const s = STATUS_CONFIG[task.status] || STATUS_CONFIG['todo']
   const p = PRIORITY_CONFIG[task.priority] || PRIORITY_CONFIG['medium']
 
   const date = new Date(task.createdAt).toLocaleDateString('en-IN', {
-    day:'numeric', month:'short', year:'numeric'
+    day: 'numeric', month: 'short', year: 'numeric'
   })
 
   return (

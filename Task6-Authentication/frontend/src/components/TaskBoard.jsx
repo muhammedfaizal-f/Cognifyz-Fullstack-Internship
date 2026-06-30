@@ -7,25 +7,25 @@ import TaskModal from './TaskModal'
 import './TaskBoard.css'
 
 export default function TaskBoard({ triggerAdd }) {
-  const [tasks, setTasks]       = useState([])
-  const [loading, setLoading]   = useState(true)
-  const [saving, setSaving]     = useState(false)
-  const [search, setSearch]     = useState('')
-  const [filterStatus, setFS]   = useState('all')
+  const [tasks, setTasks] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [search, setSearch] = useState('')
+  const [filterStatus, setFS] = useState('all')
   const [filterPriority, setFP] = useState('all')
-  const [modalOpen, setModal]   = useState(false)
+  const [modalOpen, setModal] = useState(false)
   const [editTask, setEditTask] = useState(null)
 
   const fetchTasks = useCallback(async () => {
     try {
       const params = {}
-      if (filterStatus   !== 'all') params.status   = filterStatus
-      if (filterPriority !== 'all') params.priority  = filterPriority
+      if (filterStatus !== 'all') params.status = filterStatus
+      if (filterPriority !== 'all') params.priority = filterPriority
       if (search) params.search = search
       const res = await api.get('/tasks', { params })
       setTasks(res.data)
     } catch (err) {
-      pushToast({ type:'error', title:'Fetch failed', message: err.message })
+      pushToast({ type: 'error', title: 'Fetch failed', message: err.message })
     } finally {
       setLoading(false)
     }
@@ -42,15 +42,15 @@ export default function TaskBoard({ triggerAdd }) {
       if (editTask) {
         const res = await api.put(`/tasks/${editTask._id}`, data)
         setTasks(p => p.map(t => t._id === editTask._id ? res.data : t))
-        pushToast({ type:'success', title:'Task updated', message: res.data.title })
+        pushToast({ type: 'success', title: 'Task updated', message: res.data.title })
       } else {
         const res = await api.post('/tasks', data)
         setTasks(p => [res.data, ...p])
-        pushToast({ type:'success', title:'Task created', message: res.data.title })
+        pushToast({ type: 'success', title: 'Task created', message: res.data.title })
       }
       setModal(false)
     } catch (err) {
-      pushToast({ type:'error', title:'Save failed', message: err.message })
+      pushToast({ type: 'error', title: 'Save failed', message: err.message })
     } finally {
       setSaving(false)
     }
@@ -60,9 +60,9 @@ export default function TaskBoard({ triggerAdd }) {
     try {
       await api.delete(`/tasks/${id}`)
       setTasks(p => p.filter(t => t._id !== id))
-      pushToast({ type:'info', title:'Task deleted' })
+      pushToast({ type: 'info', title: 'Task deleted' })
     } catch (err) {
-      pushToast({ type:'error', title:'Delete failed', message: err.message })
+      pushToast({ type: 'error', title: 'Delete failed', message: err.message })
     }
   }
 
@@ -70,10 +70,10 @@ export default function TaskBoard({ triggerAdd }) {
     setTasks(p => p.map(t => t._id === id ? { ...t, status } : t))
     try {
       await api.put(`/tasks/${id}`, { status })
-      pushToast({ type:'success', title:'Status updated', message: status })
+      pushToast({ type: 'success', title: 'Status updated', message: status })
     } catch (err) {
       fetchTasks()
-      pushToast({ type:'error', title:'Update failed', message: err.message })
+      pushToast({ type: 'error', title: 'Update failed', message: err.message })
     }
   }
 

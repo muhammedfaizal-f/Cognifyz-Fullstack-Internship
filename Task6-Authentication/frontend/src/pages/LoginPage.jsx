@@ -5,10 +5,10 @@ import './LoginPage.css'
 
 export default function LoginPage({ navigate }) {
   const { login } = useAuth()
-  const [form, setForm]     = useState({ email:'', password:'' })
+  const [form, setForm] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
-  const [shake, setShake]   = useState(false)
+  const [shake, setShake] = useState(false)
 
   const validate = () => {
     const e = {}
@@ -24,16 +24,16 @@ export default function LoginPage({ navigate }) {
     setLoading(true)
     try {
       const res = await login(form.email, form.password)
-      pushToast({ type:'success', title:'Welcome back!', message: `Signed in as ${res.user.name}` })
+      pushToast({ type: 'success', title: 'Welcome back!', message: `Signed in as ${res.user.name}` })
       navigate('/dashboard')
     } catch (err) {
-      pushToast({ type:'error', title:'Login failed', message: err.message })
+      pushToast({ type: 'error', title: 'Login failed', message: err.message })
     } finally {
       setLoading(false)
     }
   }
 
-  const set = (f) => (e) => { setForm(p => ({...p, [f]: e.target.value})); setErrors(p => ({...p, [f]:''})) }
+  const set = (f) => (e) => { setForm(p => ({ ...p, [f]: e.target.value })); setErrors(p => ({ ...p, [f]: '' })) }
 
   return (
     <div className="login-page">

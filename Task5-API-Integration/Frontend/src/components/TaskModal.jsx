@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
 import './TaskModal.css'
 
-const EMPTY = { title:'', description:'', status:'todo', priority:'medium' }
+const EMPTY = { title: '', description: '', status: 'todo', priority: 'medium' }
 
 export default function TaskModal({ show, task, onClose, onSave, saving }) {
-  const [form, setForm]   = useState(EMPTY)
+  const [form, setForm] = useState(EMPTY)
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
     if (show) {
-      setForm(task ? { title:task.title, description:task.description, status:task.status, priority:task.priority } : EMPTY)
+      setForm(task ? { title: task.title, description: task.description, status: task.status, priority: task.priority } : EMPTY)
       setErrors({})
     }
   }, [show, task])
@@ -50,7 +50,7 @@ export default function TaskModal({ show, task, onClose, onSave, saving }) {
               className={`form-control t5-input ${errors.title ? 'is-invalid' : ''}`}
               placeholder="What needs to be done?"
               value={form.title}
-              onChange={e => { setForm(p => ({...p, title: e.target.value})); setErrors(p => ({...p, title:''})) }}
+              onChange={e => { setForm(p => ({ ...p, title: e.target.value })); setErrors(p => ({ ...p, title: '' })) }}
             />
             {errors.title && <div className="t5-field-error">{errors.title}</div>}
           </div>
@@ -63,7 +63,7 @@ export default function TaskModal({ show, task, onClose, onSave, saving }) {
               rows={3}
               placeholder="Add more details…"
               value={form.description}
-              onChange={e => setForm(p => ({...p, description: e.target.value}))}
+              onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
             />
           </div>
 
@@ -72,7 +72,7 @@ export default function TaskModal({ show, task, onClose, onSave, saving }) {
             <div className="col-6">
               <label className="t5-label">Status</label>
               <select className="form-select t5-input"
-                value={form.status} onChange={e => setForm(p => ({...p, status: e.target.value}))}>
+                value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))}>
                 <option value="todo">To Do</option>
                 <option value="in-progress">In Progress</option>
                 <option value="done">Done</option>
@@ -81,7 +81,7 @@ export default function TaskModal({ show, task, onClose, onSave, saving }) {
             <div className="col-6">
               <label className="t5-label">Priority</label>
               <select className="form-select t5-input"
-                value={form.priority} onChange={e => setForm(p => ({...p, priority: e.target.value}))}>
+                value={form.priority} onChange={e => setForm(p => ({ ...p, priority: e.target.value }))}>
                 <option value="high">High</option>
                 <option value="medium">Medium</option>
                 <option value="low">Low</option>

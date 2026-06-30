@@ -1,9 +1,9 @@
-const express      = require('express')
-const cors         = require('cors')
-const taskRoutes   = require('./routes/taskRoutes')
+const express = require('express')
+const cors = require('cors')
+const taskRoutes = require('./routes/taskRoutes')
 const errorHandler = require('./middleware/errorHandler')
 
-const app  = express()
+const app = express()
 const PORT = process.env.PORT || 5000
 
 app.use(cors({ origin: 'http://localhost:5173' }))

@@ -14,9 +14,9 @@ export default function Navbar({ apiStatus, onAddTask }) {
           {/* API status pill */}
           <span className={`api-status-pill ${apiStatus}`}>
             <span className="api-dot" />
-            {apiStatus === 'online'  && 'API Online'}
+            {apiStatus === 'online' && 'API Online'}
             {apiStatus === 'offline' && 'API Offline'}
-            {apiStatus === 'checking'&& 'Checking…'}
+            {apiStatus === 'checking' && 'Checking…'}
           </span>
 
           <button className="btn t5-add-btn d-none d-md-flex align-items-center gap-2" onClick={onAddTask}>

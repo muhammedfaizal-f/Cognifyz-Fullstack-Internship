@@ -1,41 +1,53 @@
 <%- include('partials/header') %>
 
-<section class="form-page fade-up">
-  <div class="success-card">
-    <div class="success-icon"><%= type==='survey' ? '📋' : '💬' %></div>
-    <h2 class="success-title"><%= heading %></h2>
-    <p class="success-sub"><%= subtext %></p>
+  <section class="form-page fade-up">
+    <div class="success-card">
+      <div class="success-icon">
+        <%= type==='survey' ? '📋' : '💬' %>
+      </div>
+      <h2 class="success-title">
+        <%= heading %>
+      </h2>
+      <p class="success-sub">
+        <%= subtext %>
+      </p>
 
-    <div class="success-meta">
-      <span class="meta-badge">ID: <%= entry.id %></span>
-      <span class="meta-badge">Entry #<%= totalCount %> in storage</span>
-      <span class="meta-badge"><%= entry.submittedAt %></span>
+      <div class="success-meta">
+        <span class="meta-badge">ID: <%= entry.id %></span>
+        <span class="meta-badge">Entry #<%= totalCount %> in storage</span>
+        <span class="meta-badge">
+          <%= entry.submittedAt %>
+        </span>
+      </div>
+
+      <!-- EJS dynamically loops all submitted fields -->
+      <div class="success-data">
+        <div class="success-data-title">📦 Stored on Server</div>
+        <% const skip=['id','submittedAt'] %>
+          <% Object.keys(entry).forEach(key=> { %>
+            <% if(!skip.includes(key)) { %>
+              <div class="data-row">
+                <span class="data-key">
+                  <%= key.charAt(0).toUpperCase()+key.slice(1) %>
+                </span>
+                <span class="data-val">
+                  <%= entry[key] %>
+                </span>
+              </div>
+              <% } %>
+                <% }) %>
+      </div>
+
+      <div class="success-actions">
+        <a href="/" class="btn btn-outline">← Home</a>
+        <a href="/dashboard" class="btn btn-ghost">📊 Dashboard</a>
+        <% if(type==='survey' ) { %>
+          <a href="/feedback" class="btn btn-primary">💬 Leave Feedback</a>
+          <% } else { %>
+            <a href="/survey" class="btn btn-primary">📋 Take Survey</a>
+            <% } %>
+      </div>
     </div>
+  </section>
 
-    <!-- EJS dynamically loops all submitted fields -->
-    <div class="success-data">
-      <div class="success-data-title">📦 Stored on Server</div>
-      <% const skip = ['id','submittedAt'] %>
-      <% Object.keys(entry).forEach(key => { %>
-        <% if(!skip.includes(key)) { %>
-        <div class="data-row">
-          <span class="data-key"><%= key.charAt(0).toUpperCase()+key.slice(1) %></span>
-          <span class="data-val"><%= entry[key] %></span>
-        </div>
-        <% } %>
-      <% }) %>
-    </div>
-
-    <div class="success-actions">
-      <a href="/" class="btn btn-outline">← Home</a>
-      <a href="/dashboard" class="btn btn-ghost">📊 Dashboard</a>
-      <% if(type==='survey') { %>
-        <a href="/feedback" class="btn btn-primary">💬 Leave Feedback</a>
-      <% } else { %>
-        <a href="/survey" class="btn btn-primary">📋 Take Survey</a>
-      <% } %>
-    </div>
-  </div>
-</section>
-
-<%- include('partials/footer') %>
+  <%- include('partials/footer') %>

@@ -15,7 +15,7 @@ function AppInner() {
   const [triggerAdd, setTriggerAdd] = useState(0)
 
   const renderPage = () => {
-    if (route === '/login')    return <LoginPage    navigate={navigate} />
+    if (route === '/login') return <LoginPage navigate={navigate} />
     if (route === '/register') return <RegisterPage navigate={navigate} />
     if (route === '/dashboard' || route === '/') {
       return (

@@ -7,16 +7,16 @@ import TaskModal from './TaskModal'
 import './TaskBoard.css'
 
 
-export default function TaskBoard({ onApiStatus }) {
-  const [tasks, setTasks]         = useState([])
-  const [loading, setLoading]     = useState(true)
-  const [saving, setSaving]       = useState(false)
-  const [search, setSearch]       = useState('')
-  const [filterStatus, setFS]     = useState('all')
-  const [filterPriority, setFP]   = useState('all')
+export default function TaskBoard({ onApiStatus, triggerAdd }) {
+  const [tasks, setTasks] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [search, setSearch] = useState('')
+  const [filterStatus, setFS] = useState('all')
+  const [filterPriority, setFP] = useState('all')
   const [modalOpen, setModalOpen] = useState(false)
-  const [editTask, setEditTask]   = useState(null)
-  const [deleteId, setDeleteId]   = useState(null)
+  const [editTask, setEditTask] = useState(null)
+  const [deleteId, setDeleteId] = useState(null)
 
   // Fetch all tasks
   const fetchTasks = useCallback(async () => {
@@ -24,7 +24,7 @@ export default function TaskBoard({ onApiStatus }) {
       const res = await taskApi.getAll({ status: filterStatus, priority: filterPriority, search })
       setTasks(res.data)
     } catch (err) {
-      pushToast({ type:'error', title:'Fetch failed', message: err.message })
+      pushToast({ type: 'error', title: 'Fetch failed', message: err.message })
     } finally {
       setLoading(false)
     }
@@ -40,6 +40,13 @@ export default function TaskBoard({ onApiStatus }) {
 
   useEffect(() => { fetchTasks() }, [fetchTasks])
 
+  useEffect(() => {
+    if (triggerAdd > 0) {
+      setEditTask(null)
+      setModalOpen(true)
+    }
+  }, [triggerAdd])
+
   // Create / Update
   const handleSave = async (formData) => {
     setSaving(true)
@@ -47,15 +54,15 @@ export default function TaskBoard({ onApiStatus }) {
       if (editTask) {
         const res = await taskApi.update(editTask.id, formData)
         setTasks(prev => prev.map(t => t.id === editTask.id ? res.data : t))
-        pushToast({ type:'success', title:'Task updated', message: res.data.title })
+        pushToast({ type: 'success', title: 'Task updated', message: res.data.title })
       } else {
         const res = await taskApi.create(formData)
         setTasks(prev => [res.data, ...prev])
-        pushToast({ type:'success', title:'Task created', message: res.data.title })
+        pushToast({ type: 'success', title: 'Task created', message: res.data.title })
       }
       setModalOpen(false)
     } catch (err) {
-      pushToast({ type:'error', title:'Save failed', message: err.message })
+      pushToast({ type: 'error', title: 'Save failed', message: err.message })
     } finally {
       setSaving(false)
     }
@@ -67,9 +74,9 @@ export default function TaskBoard({ onApiStatus }) {
     try {
       await taskApi.remove(id)
       setTasks(prev => prev.filter(t => t.id !== id))
-      pushToast({ type:'info', title:'Task deleted' })
+      pushToast({ type: 'info', title: 'Task deleted' })
     } catch (err) {
-      pushToast({ type:'error', title:'Delete failed', message: err.message })
+      pushToast({ type: 'error', title: 'Delete failed', message: err.message })
     } finally {
       setDeleteId(null)
     }
@@ -80,15 +87,15 @@ export default function TaskBoard({ onApiStatus }) {
     setTasks(prev => prev.map(t => t.id === id ? { ...t, status } : t)) // optimistic
     try {
       await taskApi.update(id, { status })
-      pushToast({ type:'success', title:'Status updated', message: status })
+      pushToast({ type: 'success', title: 'Status updated', message: status })
     } catch (err) {
       fetchTasks() // revert on fail
-      pushToast({ type:'error', title:'Update failed', message: err.message })
+      pushToast({ type: 'error', title: 'Update failed', message: err.message })
     }
   }
 
   const openCreate = () => { setEditTask(null); setModalOpen(true) }
-  const openEdit   = (task) => { setEditTask(task); setModalOpen(true) }
+  const openEdit = (task) => { setEditTask(task); setModalOpen(true) }
 
   return (
     <div className="task-board container-fluid px-4 py-4">

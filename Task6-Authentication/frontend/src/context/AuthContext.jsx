@@ -4,7 +4,7 @@ import api from '../api/axios'
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [user, setUser]       = useState(() => JSON.parse(localStorage.getItem('user') || 'null'))
+  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user') || 'null'))
   const [loading, setLoading] = useState(true)
 
   // Verify token on mount
@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await api.post('/auth/login', { email, password })
     localStorage.setItem('token', res.token)
-    localStorage.setItem('user',  JSON.stringify(res.user))
+    localStorage.setItem('user', JSON.stringify(res.user))
     setUser(res.user)
     return res
   }
@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
   const register = async (name, email, password) => {
     const res = await api.post('/auth/register', { name, email, password })
     localStorage.setItem('token', res.token)
-    localStorage.setItem('user',  JSON.stringify(res.user))
+    localStorage.setItem('user', JSON.stringify(res.user))
     setUser(res.user)
     return res
   }

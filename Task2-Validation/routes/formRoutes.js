@@ -1,6 +1,6 @@
-const router   = require('express').Router()
+const router = require('express').Router()
 const { body } = require('express-validator')
-const ctrl     = require('../controllers/formController')
+const ctrl = require('../controllers/formController')
 
 // ── Survey validation rules ───────────────────────
 const surveyRules = [
@@ -49,11 +49,11 @@ const feedbackRules = [
 ]
 
 // ── Routes ────────────────────────────────────────
-router.get('/',           ctrl.getHome)
-router.get('/dashboard',  ctrl.getDashboard)
-router.get('/survey',     ctrl.getSurvey)
-router.post('/survey',    surveyRules, ctrl.postSurvey)
-router.get('/feedback',   ctrl.getFeedback)
-router.post('/feedback',  feedbackRules, ctrl.postFeedback)
+router.get('/', ctrl.getHome)
+router.get('/dashboard', ctrl.getDashboard)
+router.get('/survey', ctrl.getSurvey)
+router.post('/survey', surveyRules, ctrl.postSurvey)
+router.get('/feedback', ctrl.getFeedback)
+router.post('/feedback', feedbackRules, ctrl.postFeedback)
 
 module.exports = router

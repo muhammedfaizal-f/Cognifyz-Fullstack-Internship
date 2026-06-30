@@ -23,8 +23,8 @@ export default function ToastStack() {
 
   const meta = {
     success: { icon: 'bi-check-circle-fill', color: 'var(--green)' },
-    error:   { icon: 'bi-x-circle-fill',     color: 'var(--red)'   },
-    info:    { icon: 'bi-info-circle-fill',   color: 'var(--blue)'  },
+    error: { icon: 'bi-x-circle-fill', color: 'var(--red)' },
+    info: { icon: 'bi-info-circle-fill', color: 'var(--blue)' },
     warning: { icon: 'bi-exclamation-triangle-fill', color: 'var(--yellow)' },
   }
 

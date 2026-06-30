@@ -6,11 +6,11 @@ exports.getAllTasks = async (req, res, next) => {
     const { status, priority, search } = req.query
     const filter = { user: req.user._id }
 
-    if (status   && status   !== 'all') filter.status   = status
+    if (status && status !== 'all') filter.status = status
     if (priority && priority !== 'all') filter.priority = priority
     if (search)
       filter.$or = [
-        { title:       { $regex: search, $options: 'i' } },
+        { title: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } },
       ]
 

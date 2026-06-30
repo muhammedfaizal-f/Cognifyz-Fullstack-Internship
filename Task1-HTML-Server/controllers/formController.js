@@ -7,7 +7,7 @@ exports.getHome = (req, res) => {
     title: 'Home',
     submissions: [...contactSubmissions].reverse().slice(0, 5),
     registerCount: registerSubmissions.length,
-    contactCount:  contactSubmissions.length,
+    contactCount: contactSubmissions.length,
   })
 }
 
@@ -34,8 +34,8 @@ exports.postContact = (req, res) => {
 
   const { name, email, subject, message } = req.body
   const submission = {
-    id:        Date.now(),
-    type:      'contact',
+    id: Date.now(),
+    type: 'contact',
     name,
     email,
     subject,
@@ -45,11 +45,11 @@ exports.postContact = (req, res) => {
   contactSubmissions.push(submission)
 
   res.render('success', {
-    title:   'Message Sent!',
-    type:    'contact',
+    title: 'Message Sent!',
+    type: 'contact',
     heading: 'Message Received!',
     subtext: `Thanks ${name}, we'll get back to you at ${email} shortly.`,
-    data:    submission,
+    data: submission,
   })
 }
 
@@ -87,8 +87,8 @@ exports.postRegister = (req, res) => {
   }
 
   const submission = {
-    id:        Date.now(),
-    type:      'register',
+    id: Date.now(),
+    type: 'register',
     name,
     email,
     phone,
@@ -98,10 +98,10 @@ exports.postRegister = (req, res) => {
   registerSubmissions.push(submission)
 
   res.render('success', {
-    title:   'Registration Complete!',
-    type:    'register',
+    title: 'Registration Complete!',
+    type: 'register',
     heading: 'You\'re Registered!',
     subtext: `Welcome, ${name}! Your account has been created with ${email}.`,
-    data:    submission,
+    data: submission,
   })
 }

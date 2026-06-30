@@ -4,8 +4,8 @@ const store = require('../storage/store')
 // ── GET Home ──────────────────────────────────────
 exports.getHome = (req, res) => {
   res.render('index', {
-    title:  'Home',
-    stats:  store.getStats(),
+    title: 'Home',
+    stats: store.getStats(),
     recent: store.surveys.slice(0, 3),
   })
 }
@@ -13,10 +13,10 @@ exports.getHome = (req, res) => {
 // ── GET Dashboard ─────────────────────────────────
 exports.getDashboard = (req, res) => {
   res.render('dashboard', {
-    title:     'Dashboard',
-    surveys:   store.surveys,
+    title: 'Dashboard',
+    surveys: store.surveys,
     feedbacks: store.feedbacks,
-    stats:     store.getStats(),
+    stats: store.getStats(),
   })
 }
 
@@ -46,8 +46,8 @@ exports.postSurvey = (req, res) => {
   })
 
   res.render('success', {
-    title:   'Survey Submitted!',
-    type:    'survey',
+    title: 'Survey Submitted!',
+    type: 'survey',
     heading: 'Survey Received!',
     subtext: `Thanks ${name}! Your survey response has been stored on the server.`,
     entry,
@@ -80,8 +80,8 @@ exports.postFeedback = (req, res) => {
   })
 
   res.render('success', {
-    title:   'Feedback Submitted!',
-    type:    'feedback',
+    title: 'Feedback Submitted!',
+    type: 'feedback',
     heading: 'Feedback Received!',
     subtext: `Thanks ${name}! Your ${rating}-star feedback has been recorded.`,
     entry,

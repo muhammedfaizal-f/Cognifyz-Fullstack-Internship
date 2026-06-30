@@ -1,4 +1,4 @@
-const jwt  = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
 const signToken = (id) =>
@@ -15,7 +15,7 @@ exports.register = async (req, res, next) => {
     if (password.length < 8)
       return res.status(400).json({ success: false, message: 'Password must be at least 8 characters.' })
 
-    const user  = await User.create({ name, email, password })
+    const user = await User.create({ name, email, password })
     const token = signToken(user._id)
 
     res.status(201).json({
@@ -23,19 +23,19 @@ exports.register = async (req, res, next) => {
       token,
       user: { id: user._id, name: user.name, email: user.email },
     })
-} catch (err) {
-  console.error("===== REGISTER ERROR =====");
-  console.error("Name:", err.name);
-  console.error("Message:", err.message);
-  console.error("Errors:", err.errors);
-  console.error(err);
+  } catch (err) {
+    console.error("===== REGISTER ERROR =====");
+    console.error("Name:", err.name);
+    console.error("Message:", err.message);
+    console.error("Errors:", err.errors);
+    console.error(err);
 
-  return res.status(500).json({
-    success: false,
-    message: err.message,
-    name: err.name
-  });
-}
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+      name: err.name
+    });
+  }
 }
 
 // POST /api/auth/login
@@ -56,15 +56,15 @@ exports.login = async (req, res, next) => {
       token,
       user: { id: user._id, name: user.name, email: user.email },
     })
- } catch (err) {
-  console.error("===== LOGIN ERROR =====");
-  console.error(err);
+  } catch (err) {
+    console.error("===== LOGIN ERROR =====");
+    console.error(err);
 
-  return res.status(500).json({
-    success: false,
-    message: err.message
-  });
-}
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
 }
 
 // GET /api/auth/me

@@ -48,10 +48,10 @@ exports.updateTask = (req, res, next) => {
     return next({ status: 400, message: 'Title must be at least 3 characters.' })
 
   const task = store.update(req.params.id, {
-    ...(title       !== undefined && { title: title.trim() }),
+    ...(title !== undefined && { title: title.trim() }),
     ...(description !== undefined && { description: description.trim() }),
-    ...(status      !== undefined && { status }),
-    ...(priority    !== undefined && { priority }),
+    ...(status !== undefined && { status }),
+    ...(priority !== undefined && { priority }),
   })
   if (!task) return next({ status: 404, message: 'Task not found' })
   res.json({ success: true, data: task })

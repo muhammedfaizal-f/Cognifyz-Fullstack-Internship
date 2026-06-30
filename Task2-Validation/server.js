@@ -1,9 +1,9 @@
 require('dotenv').config()
 const express = require('express')
-const path    = require('path')
-const routes  = require('./routes/formRoutes')
+const path = require('path')
+const routes = require('./routes/formRoutes')
 
-const app  = express()
+const app = express()
 const PORT = process.env.PORT || 3000
 
 app.set('view engine', 'ejs')
@@ -14,7 +14,7 @@ app.use(express.json())
 
 // Globals for all views
 app.use((req, res, next) => {
-  res.locals.appName     = process.env.APP_NAME || 'Cognifyz'
+  res.locals.appName = process.env.APP_NAME || 'Cognifyz'
   res.locals.currentPath = req.path
   next()
 })

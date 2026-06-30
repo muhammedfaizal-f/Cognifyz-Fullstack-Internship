@@ -5,10 +5,10 @@ import './RegisterPage.css'
 
 export default function RegisterPage({ navigate }) {
   const { register } = useAuth()
-  const [form, setForm]     = useState({ name:'', email:'', password:'', confirm:'' })
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
-  const [shake, setShake]   = useState(false)
+  const [shake, setShake] = useState(false)
 
   const validate = () => {
     const e = {}
@@ -26,16 +26,16 @@ export default function RegisterPage({ navigate }) {
     setLoading(true)
     try {
       await register(form.name, form.email, form.password)
-      pushToast({ type:'success', title:'Account created!', message:`Welcome, ${form.name.split(' ')[0]}!` })
+      pushToast({ type: 'success', title: 'Account created!', message: `Welcome, ${form.name.split(' ')[0]}!` })
       navigate('/dashboard')
     } catch (err) {
-      pushToast({ type:'error', title:'Registration failed', message: err.message })
+      pushToast({ type: 'error', title: 'Registration failed', message: err.message })
     } finally {
       setLoading(false)
     }
   }
 
-  const set = (f) => (e) => { setForm(p => ({...p, [f]: e.target.value})); setErrors(p => ({...p, [f]:''})) }
+  const set = (f) => (e) => { setForm(p => ({ ...p, [f]: e.target.value })); setErrors(p => ({ ...p, [f]: '' })) }
 
   return (
     <div className="auth-page">

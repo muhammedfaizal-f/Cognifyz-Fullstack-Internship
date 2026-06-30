@@ -3,7 +3,7 @@ import { validateEmail } from '../utils/validators'
 import { pushToast } from './Toast'
 
 export default function LoginForm({ navigate, setUser }) {
-  const [form, setForm]     = useState({ email: '', password: '' })
+  const [form, setForm] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [touched, setTouched] = useState({})
   const [showPw, setShowPw] = useState(false)
@@ -11,7 +11,7 @@ export default function LoginForm({ navigate, setUser }) {
   const [shakeCard, setShakeCard] = useState(false)
 
   const validate = () => ({
-    email:    validateEmail(form.email),
+    email: validateEmail(form.email),
     password: form.password.length < 1 ? 'Password is required.' : '',
   })
 
@@ -90,7 +90,7 @@ export default function LoginForm({ navigate, setUser }) {
 
         <div className="d-flex justify-content-end mb-2">
           <span style={{ fontSize: '0.8rem', color: 'var(--orange)', cursor: 'pointer' }}
-            onClick={() => pushToast({ type:'info', title:'Reset link sent', message:'Check your inbox (simulated).' })}>
+            onClick={() => pushToast({ type: 'info', title: 'Reset link sent', message: 'Check your inbox (simulated).' })}>
             Forgot password?
           </span>
         </div>

@@ -6,16 +6,16 @@ import {
 import { pushToast } from './Toast'
 
 const checkLabels = {
-  length:    '8+ chars',
+  length: '8+ chars',
   uppercase: 'Uppercase',
   lowercase: 'Lowercase',
-  number:    'Number',
-  special:   'Symbol',
-  long:      '12+ chars',
+  number: 'Number',
+  special: 'Symbol',
+  long: '12+ chars',
 }
 
 export default function RegisterForm({ navigate, setUser }) {
-  const [form, setForm] = useState({ name:'', email:'', phone:'', password:'', confirm:'' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', confirm: '' })
   const [errors, setErrors] = useState({})
   const [touched, setTouched] = useState({})
   const [showPw, setShowPw] = useState(false)
@@ -28,9 +28,9 @@ export default function RegisterForm({ navigate, setUser }) {
   const validate = (field, value) => {
     const all = { ...form, [field]: value }
     const e = {}
-    e.name    = validateName(all.name)
-    e.email   = validateEmail(all.email)
-    e.phone   = validatePhone(all.phone)
+    e.name = validateName(all.name)
+    e.email = validateEmail(all.email)
+    e.phone = validatePhone(all.phone)
     e.password = validatePassword(all.password)
     e.confirm = validateConfirm(all.confirm, all.password)
     return e
@@ -55,14 +55,14 @@ export default function RegisterForm({ navigate, setUser }) {
   }
 
   const handleSubmit = async () => {
-    const allTouched = { name:true, email:true, phone:true, password:true, confirm:true }
+    const allTouched = { name: true, email: true, phone: true, password: true, confirm: true }
     setTouched(allTouched)
     const errs = validate('', '')
     // re-run full validation
     const fullErrs = {
-      name:    validateName(form.name),
-      email:   validateEmail(form.email),
-      phone:   validatePhone(form.phone),
+      name: validateName(form.name),
+      email: validateEmail(form.email),
+      phone: validatePhone(form.phone),
       password: validatePassword(form.password),
       confirm: validateConfirm(form.confirm, form.password),
     }
@@ -71,7 +71,7 @@ export default function RegisterForm({ navigate, setUser }) {
     if (Object.values(fullErrs).some(Boolean)) {
       setShakeCard(true)
       setTimeout(() => setShakeCard(false), 500)
-      pushToast({ type:'error', title:'Fix the errors below', message:'Please check all fields before continuing.' })
+      pushToast({ type: 'error', title: 'Fix the errors below', message: 'Please check all fields before continuing.' })
       return
     }
 
@@ -81,7 +81,7 @@ export default function RegisterForm({ navigate, setUser }) {
 
     const userData = { name: form.name, email: form.email, phone: form.phone }
     setUser(userData)
-    pushToast({ type:'success', title:'Account created!', message:`Welcome, ${form.name.split(' ')[0]}!` })
+    pushToast({ type: 'success', title: 'Account created!', message: `Welcome, ${form.name.split(' ')[0]}!` })
     navigate('/dashboard')
   }
 
@@ -187,7 +187,7 @@ function Field({ label, id, icon, value, onChange, onBlur, state, error, placeho
       <label className="field-label" htmlFor={id}>{label}</label>
       <input id={id} className={`field-input ${state}`}
         type={type} value={value} onChange={onChange} onBlur={onBlur} placeholder={placeholder} />
-      <span className="field-icon" style={{ pointerEvents:'none' }}>
+      <span className="field-icon" style={{ pointerEvents: 'none' }}>
         <i className={`bi ${state === 'is-valid' ? 'bi-check-lg text-success' : state === 'is-error' ? 'bi-x-lg text-danger' : icon}`}></i>
       </span>
       {state === 'is-error' && error && (

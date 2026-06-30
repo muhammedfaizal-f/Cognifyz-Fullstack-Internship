@@ -1,17 +1,17 @@
 import './StatsBar.css'
 
 export default function StatsBar({ tasks }) {
-  const total      = tasks.length
-  const todo       = tasks.filter(t => t.status === 'todo').length
+  const total = tasks.length
+  const todo = tasks.filter(t => t.status === 'todo').length
   const inProgress = tasks.filter(t => t.status === 'in-progress').length
-  const done       = tasks.filter(t => t.status === 'done').length
-  const pct        = total ? Math.round((done / total) * 100) : 0
+  const done = tasks.filter(t => t.status === 'done').length
+  const pct = total ? Math.round((done / total) * 100) : 0
 
   const stats = [
-    { label:'Total',       value: total,      icon:'bi-stack',          color:'var(--blue)',   bg:'var(--blue-dim)'   },
-    { label:'To Do',       value: todo,        icon:'bi-circle',         color:'var(--muted)',  bg:'rgba(139,148,158,0.12)' },
-    { label:'In Progress', value: inProgress,  icon:'bi-arrow-repeat',   color:'var(--yellow)', bg:'var(--yellow-dim)' },
-    { label:'Done',        value: done,        icon:'bi-check-circle',   color:'var(--green)',  bg:'var(--green-dim)'  },
+    { label: 'Total', value: total, icon: 'bi-stack', color: 'var(--blue)', bg: 'var(--blue-dim)' },
+    { label: 'To Do', value: todo, icon: 'bi-circle', color: 'var(--muted)', bg: 'rgba(139,148,158,0.12)' },
+    { label: 'In Progress', value: inProgress, icon: 'bi-arrow-repeat', color: 'var(--yellow)', bg: 'var(--yellow-dim)' },
+    { label: 'Done', value: done, icon: 'bi-check-circle', color: 'var(--green)', bg: 'var(--green-dim)' },
   ]
 
   return (

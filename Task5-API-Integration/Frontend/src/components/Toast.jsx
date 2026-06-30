@@ -16,9 +16,11 @@ export default function ToastStack() {
     }, toast.duration || 3500)
   }, [])
 
-  const icons = { success:'bi-check-circle-fill', error:'bi-x-circle-fill',
-                  info:'bi-info-circle-fill', warning:'bi-exclamation-triangle-fill' }
-  const colors = { success:'var(--green)', error:'var(--red)', info:'var(--blue)', warning:'var(--yellow)' }
+  const icons = {
+    success: 'bi-check-circle-fill', error: 'bi-x-circle-fill',
+    info: 'bi-info-circle-fill', warning: 'bi-exclamation-triangle-fill'
+  }
+  const colors = { success: 'var(--green)', error: 'var(--red)', info: 'var(--blue)', warning: 'var(--yellow)' }
 
   return (
     <div className="toast-stack">
